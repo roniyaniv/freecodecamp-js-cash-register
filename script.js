@@ -1,4 +1,4 @@
-let price = 11.95;
+let price = 19.5;
 let cid = [
     ['PENNY', 1.01],
     ['NICKEL', 2.05],
@@ -15,8 +15,8 @@ const cashInput = document.getElementById("cash")
 const purchaseBtn = document.getElementById("purchase-btn")
 const changeDue = document.getElementById("change-due")
 
-const processTransaction = () => {
-    if (parseFloat(cashInput.value) === price) {
+const processTransaction = (cash) => {
+    if (cash === price) {
         changeDue.textContent = "No change due - customer paid with exact cash"
         return
     }
@@ -36,6 +36,6 @@ purchaseBtn.addEventListener("click", (e) => {
         alert("Customer does not have enough money to purchase the item")
         return
     } else {
-        processTransaction()
+        processTransaction(cash)
     }
 })
