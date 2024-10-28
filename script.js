@@ -47,7 +47,7 @@ purchaseBtn.addEventListener("click", (e) => {
 
         console.log(`change due: ${change}`)
 
-        let totalCashInDrawer = calcTotalCash(cid)
+        let totalCashInDrawer = Math.round(calcTotalCash(cid) * 100) / 100
 
         let changeArr = []
 
@@ -83,7 +83,8 @@ purchaseBtn.addEventListener("click", (e) => {
                 console.log(`current changeArr: ${changeArr}`)
             }
         }
-        let totalChangeArr = calcTotalCash(changeArr)
+
+        let totalChangeArr = Math.round(calcTotalCash(changeArr) * 100) / 100
 
         console.log(`change-due: ${change}, cash-in-drawer: ${totalCashInDrawer}, change-total: ${totalChangeArr}`)
 
@@ -91,12 +92,12 @@ purchaseBtn.addEventListener("click", (e) => {
             changeDue.textContent = "Status: INSUFFICIENT_FUNDS"
             return
         } else if (totalChangeArr == totalCashInDrawer) {
-            changeDue.textContent = "Status: CLOSED "
+            changeDue.textContent = "Status: CLOSED"
         } else {
-            changeDue.textContent = `Status: OPEN `
+            changeDue.textContent = `Status: OPEN`
         }
         changeArr.forEach((element) => {
-            changeDue.textContent += `${element[0]}: $${element[1]} `
+            changeDue.textContent += ` ${element[0]}: $${element[1]} `
         })
         return
     }
