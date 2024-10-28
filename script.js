@@ -1,14 +1,14 @@
-let price = 3.26;
+let price = 19.5;
 let cid = [
-    ['PENNY', 1.01],
-    ['NICKEL', 2.05],
-    ['DIME', 3.1],
-    ['QUARTER', 4.25],
-    ['ONE', 90],
-    ['FIVE', 55],
-    ['TEN', 20],
-    ['TWENTY', 60],
-    ['ONE HUNDRED', 100]
+    ['PENNY', 0.5],
+    ['NICKEL', 0],
+    ['DIME', 0],
+    ['QUARTER', 0],
+    ['ONE', 0],
+    ['FIVE', 0],
+    ['TEN', 0],
+    ['TWENTY', 0],
+    ['ONE HUNDRED', 0]
 ];
 
 const denom = {
@@ -47,6 +47,8 @@ purchaseBtn.addEventListener("click", (e) => {
 
         console.log(`change due: ${change}`)
 
+        let totalCashInDrawer = calcTotalCash(cid)
+
         let changeArr = []
 
         let changeArrTotal = 0
@@ -62,13 +64,16 @@ purchaseBtn.addEventListener("click", (e) => {
                 console.log(`enough currencyValue in drawer section`)
                 console.log(`substracting ${denom[currency]} from change due...`)
                 change -= denom[currency]
-                console.log(`remaining change due: ${change}`)
+
                 console.log(`rounding change...`)
                 change = Math.round(change * 100) / 100
+
                 console.log(`current change due: ${change}`)
                 console.log(`substracting ${denom[currency]} from drawer...`)
                 cid[i][1] -= denom[currency]
                 currencyTotal += denom[currency]
+                currencyTotal = Math.round(currencyTotal * 100) / 100
+
                 console.log(`current currencyTotal: ${currencyTotal}`)
             }
 
@@ -78,17 +83,31 @@ purchaseBtn.addEventListener("click", (e) => {
                 console.log(`current changeArr: ${changeArr}`)
             }
         }
+        let totalChangeArr = calcTotalCash(changeArr)
+
+        console.log(`change-due: ${change}, cash-in-drawer: ${totalCashInDrawer}, change-total: ${totalChangeArr}`)
 
         if (change > 0) {
             changeDue.textContent = "Status: INSUFFICIENT_FUNDS"
             return
+        } else if (totalChangeArr == totalCashInDrawer) {
+            changeDue.textContent = "Status: CLOSED "
         } else {
             changeDue.textContent = `Status: OPEN `
-            changeArr.forEach((element) => {
-                changeDue.textContent += `${element[0]}: $${element[1]} `
-            })
-            return
         }
+        changeArr.forEach((element) => {
+            changeDue.textContent += `${element[0]}: $${element[1]} `
+        })
+        return
     }
-})
+}
+)
 
+const calcTotalCash = (arr) => {
+    let totalCash = 0
+    arr.forEach((element) => {
+        totalCash += element[1]
+    })
+    console.log(`total cash: ${totalCash}`)
+    return totalCash
+}
