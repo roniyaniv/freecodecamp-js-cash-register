@@ -1,4 +1,4 @@
-let price = 19.5;
+let price = 3.26;
 let cid = [
     ['PENNY', 1.01],
     ['NICKEL', 2.05],
@@ -60,25 +60,33 @@ purchaseBtn.addEventListener("click", (e) => {
 
             while (cid[i][1] > 0 && change >= denom[currency]) {
                 console.log(`enough currencyValue in drawer section`)
+                console.log(`substracting ${denom[currency]} from change due...`)
                 change -= denom[currency]
                 console.log(`remaining change due: ${change}`)
-                // change = Math.round(change * 100) / 100
+                console.log(`rounding change...`)
+                change = Math.round(change * 100) / 100
+                console.log(`current change due: ${change}`)
+                console.log(`substracting ${denom[currency]} from drawer...`)
                 cid[i][1] -= denom[currency]
                 currencyTotal += denom[currency]
+                console.log(`current currencyTotal: ${currencyTotal}`)
             }
 
             if (currencyTotal > 0) {
                 changeArr.push([currency, currencyTotal])
                 changeArrTotal += currencyTotal
-                console.log(changeArr)
+                console.log(`current changeArr: ${changeArr}`)
             }
         }
 
         if (change > 0) {
-            changeDue.textContent = "Insufficient funds in register to return change"
+            changeDue.textContent = "Status: INSUFFICIENT_FUNDS"
             return
         } else {
-            changeDue.textContent = `Status: OPEN ${changeArr[0][0]}: $${changeArr[0][1]}`
+            changeDue.textContent = `Status: OPEN `
+            changeArr.forEach((element) => {
+                changeDue.textContent += `${element[0]}: $${element[1]} `
+            })
             return
         }
     }
